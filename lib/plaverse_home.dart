@@ -27,16 +27,19 @@ class PlayverseHome extends StatelessWidget {
 
             // 🔹 Hero Section
             PlayverseAppBar(),
-            Container(
-              height: MediaQuery.of(context).size.height,
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/main.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
+            
+           Container(
+  // Sets the height to 80% of the screen height
+  height: MediaQuery.of(context).size.height * 0.86, 
+  width: double.infinity,
+  decoration: const BoxDecoration(
+    image: DecorationImage(
+      alignment: Alignment.center,
+      image: AssetImage("assets/main.png"),
+      fit: BoxFit.cover,
+    ),
+  ),
+),
 
             const SizedBox(height: 50),
 
@@ -58,7 +61,7 @@ class PlayverseHome extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        "Based in Pakistan, Playverse Games is dedicated to shaping the future of gaming by creating genre-defining games played by millions worldwide.",
+                        "Based in Pakistan, Playverse.pk is dedicated to shaping the future of gaming by creating genre-defining games played by millions worldwide.",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
                           fontSize: 20,
@@ -68,7 +71,7 @@ class PlayverseHome extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       Text(
-                        "At Playverse Games, we believe in passionate people who embody personal growth and take full ownership of their responsibilities. Our team collaboratively builds an environment where every member contributes to our shared success.",
+                        "At Playverse.pk, we believe in passionate people who embody personal growth and take full ownership of their responsibilities. Our team collaboratively builds an environment where every member contributes to our shared success.",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
                           fontSize: 20,

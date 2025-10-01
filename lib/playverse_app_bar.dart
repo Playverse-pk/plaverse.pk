@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart'; // Import GoRouter for web navigation
 import 'package:playverse/nav_item.dart';
 
+// Assuming these color constants are defined in your project's theme file
+const Color playversePink = Colors.purple; 
+const Color playversePurple = Colors.purple; 
+
 class PlayverseAppBar extends StatelessWidget implements PreferredSizeWidget {
   // Optional field to indicate the current page for visual highlighting
   final String? currentPage;
@@ -14,24 +18,36 @@ class PlayverseAppBar extends StatelessWidget implements PreferredSizeWidget {
     
     // Determine the GoRouter path to navigate to
     switch (title) {
+      case "About Us":
+        routeName = '/about-us'; 
+        break;
+      case "Games":
+        routeName = '/games'; // Route for the Games screen
+        break;
+      // >>> NEW CASE: Blogs Route <<<
+      case "Blogs":
+        routeName = '/blogs'; 
+        break;
       case "Privacy":
-        routeName = '/privacy';
+        routeName = '/privacy-policy'; // Corrected route path
         break;
       case "Terms":
         routeName = '/terms';
         break;
       default:
-        // For Games, About Us, Careers, we just log a message since routes aren't defined yet.
         return; 
     }
 
     // Use context.go() to navigate and update the browser URL
-    context.go(routeName);
+    if (routeName != null) {
+      context.go(routeName);
     }
+  }
 
   // Helper widget to create a clickable NavItem
   Widget _buildClickableNavItem(BuildContext context, String title) {
     final bool isCurrent = currentPage == title;
+    // Assuming NavItem exists and handles its own text/style based on isCurrent
     return GestureDetector(
       onTap: isCurrent ? null : () => _navigateToPage(context, title),
       child: NavItem(title: title, isCurrent: isCurrent),
@@ -47,7 +63,8 @@ class PlayverseAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.purple,
+      // Updated color to use playversePink for consistency (mimics the screenshot header)
+      color: playversePink, 
       padding: const EdgeInsets.only(
         left: 80,
         right: 60,
@@ -60,6 +77,7 @@ class PlayverseAppBar extends StatelessWidget implements PreferredSizeWidget {
           // Logo (Clickable to return to the Home route)
           GestureDetector(
             onTap: () => _goHome(context),
+            // Assuming logo4.png exists and is the main logo.
             child: Image.asset("assets/logo4.png", height: 50),
           ),
 

@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
-// 1. Import the necessary library for web plugins
 import 'package:flutter_web_plugins/flutter_web_plugins.dart'; 
-import 'package:go_router/go_router.dart'; 
+import 'package:go_router/go_router.dart';
+import 'package:playverse/about_us.dart';
+import 'package:playverse/blogs_screen.dart'; 
+import 'package:playverse/games_screen.dart'; 
 import 'package:playverse/plaverse_home.dart';
 import 'package:playverse/privacy_policy.dart';
 import 'package:playverse/terms_of_service_page.dart';
 
 void main() {
-  // 2. Set the URL strategy to PathUrlStrategy to remove the '#'
+  // Set the URL strategy to PathUrlStrategy to remove the '#'
   setUrlStrategy(PathUrlStrategy()); 
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-   MyApp({super.key});
+  MyApp({super.key});
 
-  // 1. Define the GoRouter configuration
-  final GoRouter _router =  GoRouter(
+  // Define the GoRouter configuration
+  final GoRouter _router = GoRouter(
     initialLocation: '/',
     routes: <RouteBase>[
       // Home Route
@@ -24,6 +26,27 @@ class MyApp extends StatelessWidget {
         path: '/',
         builder: (BuildContext context, GoRouterState state) {
           return PlayverseHome(); 
+        },
+      ),
+      // About Us Route
+      GoRoute(
+        path: '/about-us',
+        builder: (BuildContext context, GoRouterState state) {
+          return const AboutUsScreen();
+        },
+      ),
+      // Games Route
+      GoRoute(
+        path: '/games',
+        builder: (BuildContext context, GoRouterState state) {
+          return const GamesScreen();
+        },
+      ),
+      // >>> NEW ROUTE: Blogs <<<
+      GoRoute(
+        path: '/blogs',
+        builder: (BuildContext context, GoRouterState state) {
+          return const BlogScreen();
         },
       ),
       // Privacy Policy Route
@@ -45,7 +68,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 2. Use MaterialApp.router and provide the router configuration
+    // Use MaterialApp.router and provide the router configuration
     return MaterialApp.router(
       title: 'plaverse.pk',
       debugShowCheckedModeBanner: false,
