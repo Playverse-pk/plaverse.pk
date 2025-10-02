@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:playverse/playverse_app_bar.dart';
-import 'package:playverse/footer.dart';
 
 // --- Theme Colors (Defined in other files, duplicated here for standalone testing) ---
 const Color playversePink = Color(0xFFE91E63); // Deep pink/red for headers
@@ -25,24 +23,20 @@ class GamesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // Use the custom PlayverseAppBar, setting the current page
-     
-      backgroundColor: playverseBgColor,
-      body: SingleChildScrollView(
-        child: Column(
+    return  SingleChildScrollView(
+      child: Column(
           children: [
             // 1. Hero Banner Section
-            const PlayverseAppBar(currentPage: "Games"),
+            // const PlayverseAppBar(currentPage: "Games"),
             _buildHeroBanner(context),
             const SizedBox(height: 64),
             // 2. Game Listing Section
             _buildGameList(context),
             const SizedBox(height: 80),
             // 3. Footer
-            const PlaverseFooter(isPrivacyPage: false, isTermsPage: false),
+            // const PlaverseFooter(isPrivacyPage: false, isTermsPage: false),
           ],
-        ),
+        
       ),
     );
   }

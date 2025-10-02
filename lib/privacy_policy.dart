@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-// NOTE: Assuming these imports point to your custom widgets
-import 'package:playverse/footer.dart'; 
-import 'package:playverse/playverse_app_bar.dart'; 
 
 class PrivacyPolicyPage extends StatelessWidget {
   const PrivacyPolicyPage({super.key});
@@ -62,14 +59,12 @@ class PrivacyPolicyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
+    return  SingleChildScrollView(
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
            
-PlayverseAppBar(),
+        // PlayverseAppBar(),
             // 🔹 Privacy Policy Content Area
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 50),
@@ -86,12 +81,12 @@ PlayverseAppBar(),
                     ),
                   ),
                   const SizedBox(height: 20),
-
+        
                   // Introduction
                   _buildTextBlock(
                     'Playverse.pk provides free mobile games and will process your data when you play these games. This privacy statement explains our procedures for collecting and sharing information when users access and/or use our mobile applications. We know you care about how your personal information is used and shared, and we take your privacy seriously. Please read the following to learn more about how we use your information, what type of information and for which purposes.',
                   ),
-
+        
                   _buildSectionTitle('Questions Answered in the Privacy Policy:'),
                   // Questions List
                   Container(
@@ -112,7 +107,7 @@ PlayverseAppBar(),
                       ],
                     ),
                   ),
-
+        
                   // --- Collection and use of data in Mobile Apps ---
                   _buildSectionTitle('Collection and use of data in Mobile Apps'),
                   
@@ -129,7 +124,7 @@ PlayverseAppBar(),
                   _buildTextBlock(
                     'We don’t collect or record your email address or personal information. Our primary goal is to provide and improve features and resources, unless you send us an email or voluntarily agree to submit information to contact us (in which case your email is stored in our email servers). We recognize you specifically as a service user. We do not sell your contact details, private emails, or other information to marketers or other marketing firms. The goal to collect information from email servers is to improve customer services for our product users.',
                   ),
-
+        
                   // Non-Personally identifiable information
                   Text(
                     'Non-Personally identifiable information:',
@@ -143,7 +138,7 @@ PlayverseAppBar(),
                   _buildTextBlock(
                     'Collection and use of data is also relied on by third parties. The information is about you and your device such as your device locale (to provide support and to deliver targeted advertising and promotions for your better experience) and device information (type of device, your device capability, status, & operating system). IDFA android advertiser ID or other types of advertising identifier are collected for in-game activities, mobile network connection and access, internet signals strength relating to WIFI, application and device version and all similar technical data about your device which don’t include your personal information is used to personalize your experience and improve customer services.',
                   ),
-
+        
                   // Analytics
                   _buildSectionTitle('Analytics'),
                   _buildTextBlock(
@@ -151,13 +146,13 @@ PlayverseAppBar(),
                   ),
                   _buildTextBlock('You can read about Unity Analytics Privacy Policy here:'),
                   _buildLinkText('Unity Analytics Privacy Policy', 'https://unity3d.com/legal/privacy-policy'),
-
+        
                   // Consent Management & CMP/ GDPR
                   _buildSectionTitle('Consent Management & CMP/ GDPR'),
                   _buildTextBlock(
                     'Consent is to provide a better gaming experience to user based on personalized advertising / content with audience reach and services development.',
                   ),
-
+        
                   // Advertising
                   _buildSectionTitle('Advertising'),
                   _buildTextBlock(
@@ -176,24 +171,24 @@ PlayverseAppBar(),
                   _buildLinkText('Unity', 'https://unity3d.com/legal/privacy-policy'),
                   _buildLinkText('Vungle', 'https://vungle.com/privacy/'),
                   _buildLinkText('Mintegral', 'https://www.mintegral.com/en/privacy/'),
-
+        
                   // User Acquisition
                   _buildSectionTitle('User Acquisition'),
                   _buildLinkText('Google', 'https://support.google.com/adspolicy/answer/54817?hl=en'),
-
+        
                   // Security
                   _buildSectionTitle('Security'),
                   _buildTextBlock(
                     'To save your confidentiality and security of your information, we use device applications industry technologies and standards to protect but not limited to **firewalls**. We usually encrypt transmissions and data of your information, but unfortunately no data encryptions on the internet can be safe, we cannot guarantee the security of your information transmitted while we strive to protect your information. You will use these services at your own risk.',
                   ),
-
+        
                   // Stores
                   _buildSectionTitle('Stores'),
                   _buildTextBlock(
                     'If you purchase our game or do an In-app like remove ads, power ups, you may be asked to enter credit card or payment methods which will require your personal information. But all information you provide is secure because all transactions are handled securely through the app stores and your credit card information is not seen by us. Play store use fully secure technology standards to protect you. As clearly defined by google payment corp GPC. Please visit Google Payment Privacy notice link below for more details.',
                   ),
                   _buildLinkText('Google Payment Privacy notice', 'https://payments.google.com/payments/apis-secure/get_legal_document?ldo=0&ldt=privacynotice'),
-
+        
                   // In apps & Subscription
                   _buildSectionTitle('In apps & Subscription'),
                   _buildTextBlock(
@@ -212,19 +207,19 @@ PlayverseAppBar(),
                       ],
                     ),
                   ),
-
+        
                   // Manage Control
                   _buildSectionTitle('Manage Control'),
                   _buildTextBlock(
                     'You can always control your information and confidentiality to share with us on our services. So, if you want that advertisers don’t show you contextual ads that are according to your preference you can manage the option in app **Consent Screen**. The Consent Screen comes when you first play the game and in settings or the main menu of the game. According to the Digital Advertising Alliance DAA, European Interactive Digital Advertising Alliance EDAA and Network Advertising Initiative NAI offers individuals to manage the certain advertisements all right reserved for end users.',
                   ),
-
+        
                   // Information related to children
                   _buildSectionTitle('Information related to children'),
                   _buildTextBlock(
                     'Information related to children policy appointment is to provide the legal guardian of a child under the age of 13 with guidance regarding our privacy policies that concern collecting, using and disclosing personal information of children under 13. Parents and legal guardians of children under 13 have certain rights under **Children\'s Online Privacy Protection Act of 1998 (COPPA)**, and we recognize those rights. We do not knowingly and directly collect and store any personal information from children under the age 13. Some information may be collected by third party providers of services (advertising networks, etc.).',
                   ),
-
+        
                   // International Transfer
                   _buildSectionTitle('International Transfer'),
                   _buildTextBlock(
@@ -239,19 +234,19 @@ PlayverseAppBar(),
                   _buildTextBlock(
                     'The personal data can be stored and processed after this moment for archiving purposes, scientific or historical research purposes or statistical purposes. We will process the personal data which is needed to comply with the requirements of applicable laws (e.g. tax and accounting requirements) or for our detection, investigation and prevention of cheating in the game and EULA violations. Also, we can process anonymous information for purposes, specified in this privacy policy, after you request to give up game usage or request us to delete your personal data.',
                   ),
-
+        
                   // Third Party Links
                   _buildSectionTitle('Third Party'),
                   _buildTextBlock(
                     'The games may contain links to websites and microsites that are operated by third parties. If you click such links, you can be transferred to those websites and microsites. We do not control those websites and microsites and this privacy policy does not apply to them. Please consult the terms and conditions and privacy policies of those third-party websites and microsites to find out how they collect and use your personal data and to establish whether and for what purpose they use cookies.',
                   ),
-
+        
                   // Changes to the Privacy Policy
                   _buildSectionTitle('Changes to the Privacy Policy'),
                   _buildTextBlock(
                     'We may update this privacy statement to reflect changes in our information practices. We encourage you to periodically review this page for the latest information on our privacy practices for your better data and information protection and improved user service.',
                   ),
-
+        
                   // Contact
                   const SizedBox(height: 30),
                   Text(
@@ -266,12 +261,12 @@ PlayverseAppBar(),
                 ],
               ),
             ),
-
+        
             // 🔹 Footer (reused)
             // Note: We use the constructor from the separate footer.dart
-            PlaverseFooter(isPrivacyPage: true, isTermsPage: false,),
+            // PlaverseFooter(isPrivacyPage: true, isTermsPage: false,),
           ],
-        ),
+        
       ),
     );
   }

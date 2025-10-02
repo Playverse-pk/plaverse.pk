@@ -39,10 +39,8 @@ class PlayverseAppBar extends StatelessWidget implements PreferredSizeWidget {
     }
 
     // Use context.go() to navigate and update the browser URL
-    if (routeName != null) {
-      context.go(routeName);
+    context.go(routeName);
     }
-  }
 
   // Helper widget to create a clickable NavItem
   Widget _buildClickableNavItem(BuildContext context, String title) {

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:playverse/footer.dart';
-import 'package:playverse/playverse_app_bar.dart';
 
 // Defining color constants locally for this file's self-contained styling.
 // These should match the theme used throughout your Playverse app.
@@ -161,12 +159,10 @@ class BlogScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Determine the width of the screen available for this content
-    return 
-    Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
+    return  SingleChildScrollView(
+      child: Column(
           children: [
-            PlayverseAppBar(),
+            // PlayverseAppBar(),
             LayoutBuilder(
               builder: (context, constraints) {
                 // Default values for mobile view (single column)
@@ -234,9 +230,9 @@ class BlogScreen extends StatelessWidget {
                 );
               },
             ),
-            PlaverseFooter(isPrivacyPage: false,isTermsPage: false,)
+            // PlaverseFooter(isPrivacyPage: false,isTermsPage: false,)
           ],
-        ),
+        
       ),
     );
   }
