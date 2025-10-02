@@ -1,85 +1,87 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart'; // Import GoRouter for web navigation
+import 'package:go_router/go_router.dart';
 import 'package:playverse/nav_item.dart';
 
-// Assuming these color constants are defined in your project's theme file
-const Color playversePink = Colors.purple; 
-const Color playversePurple = Colors.purple; 
+// Colors
+const Color playversePink = Colors.purple;
+const Color playversePurple = Colors.deepPurple;
 
 class PlayverseAppBar extends StatelessWidget implements PreferredSizeWidget {
-  // Optional field to indicate the current page for visual highlighting
   final String? currentPage;
 
   const PlayverseAppBar({super.key, this.currentPage});
 
-  // Helper function to handle navigation to specific pages using go_router
   void _navigateToPage(BuildContext context, String title) {
     String? routeName;
-    
-    // Determine the GoRouter path to navigate to
+
     switch (title) {
       case "About Us":
-        routeName = '/about-us'; 
+        routeName = '/about-us';
         break;
       case "Games":
-        routeName = '/games'; // Route for the Games screen
+        routeName = '/games';
         break;
-      // >>> NEW CASE: Blogs Route <<<
       case "Blogs":
-        routeName = '/blogs'; 
+        routeName = '/blogs';
         break;
       case "Privacy":
-        routeName = '/privacy-policy'; // Corrected route path
+        routeName = '/privacy-policy';
         break;
       case "Terms":
         routeName = '/terms';
         break;
+      case "Home":
+        routeName = '/';
+        break;
       default:
-        return; 
+        return;
     }
 
-    // Use context.go() to navigate and update the browser URL
     context.go(routeName);
-    }
+  }
 
-  // Helper widget to create a clickable NavItem
   Widget _buildClickableNavItem(BuildContext context, String title) {
     final bool isCurrent = currentPage == title;
-    // Assuming NavItem exists and handles its own text/style based on isCurrent
     return GestureDetector(
       onTap: isCurrent ? null : () => _navigateToPage(context, title),
       child: NavItem(title: title, isCurrent: isCurrent),
     );
   }
 
-  // Helper to handle logo tap back to home
-  void _goHome(BuildContext context) {
-    // Use context.go('/') to navigate back to the root route
-    context.go('/');
-  }
-
   @override
   Widget build(BuildContext context) {
+    final bool isSmallScreen = MediaQuery.of(context).size.width < 800;
+
+    if (isSmallScreen) {
+      // ✅ Mobile AppBar: ONLY menu button, no second drawer
+      return AppBar(
+        backgroundColor: playversePink,
+        elevation: 0,
+        title: GestureDetector(
+          onTap: () => _navigateToPage(context, "Home"),
+          child: Image.asset("assets/logo4.png", height: 40),
+        ),
+        // ✅ Menu button triggers Scaffold.drawer
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.menu,color: Colors.white,),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
+        ),
+      );
+    }
+
+    // ✅ Desktop AppBar
     return Container(
-      // Updated color to use playversePink for consistency (mimics the screenshot header)
-      color: playversePink, 
-      padding: const EdgeInsets.only(
-        left: 80,
-        right: 60,
-        top: 20,
-        bottom: 20,
-      ),
+      color: playversePink,
+      padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Logo (Clickable to return to the Home route)
           GestureDetector(
-            onTap: () => _goHome(context),
-            // Assuming logo4.png exists and is the main logo.
+            onTap: () => _navigateToPage(context, "Home"),
             child: Image.asset("assets/logo4.png", height: 50),
           ),
-
-          // Navigation Items (Now uses the clickable helper)
           Row(
             children: [
               _buildClickableNavItem(context, "About Us"),
@@ -95,6 +97,70 @@ class PlayverseAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  // Define the size of the App Bar so Scaffold knows how much space to allocate
-  Size get preferredSize => const Size.fromHeight(80.0); 
+  Size get preferredSize => const Size.fromHeight(80.0);
+}
+
+/// ✅ Drawer widget used in Scaffold (main.dart will use this)
+class AppDrawer extends StatelessWidget {
+  const AppDrawer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      shape: BeveledRectangleBorder(),
+      child: ListView(
+        padding: const EdgeInsets.all(0),
+        children: [
+          DrawerHeader(
+            decoration: const BoxDecoration(color: playversePink),
+            child: Center(
+              child: Image.asset("assets/logo4.png", height: 60),
+            ),
+          ),
+          ListTile(
+            title: const Text("Home"),
+            onTap: () {
+              context.go('/');
+              Navigator.of(context).pop(); // ✅ close drawer after navigation
+            },
+          ),
+          ListTile(
+            title: const Text("About Us"),
+            onTap: () {
+              context.go('/about-us');
+              Navigator.of(context).pop();
+            },
+          ),
+          ListTile(
+            title: const Text("Games"),
+            onTap: () {
+              context.go('/games');
+              Navigator.of(context).pop();
+            },
+          ),
+          ListTile(
+            title: const Text("Blogs"),
+            onTap: () {
+              context.go('/blogs');
+              Navigator.of(context).pop();
+            },
+          ),
+          ListTile(
+            title: const Text("Privacy Policy"),
+            onTap: () {
+              context.go('/privacy-policy');
+              Navigator.of(context).pop();
+            },
+          ),
+          ListTile(
+            title: const Text("Terms"),
+            onTap: () {
+              context.go('/terms');
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
 }

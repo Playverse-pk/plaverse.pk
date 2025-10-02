@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// --- Theme Colors (Defined in other files, duplicated here for standalone testing) ---
-const Color playversePink = Color(0xFFE91E63); // Deep pink/red for headers
-const Color playversePurple = Color(0xFF8A2BE2); // Purple for accents/branding
-const Color playverseBgColor = Color(0xFFF9F9F9); // Light background
+// --- Theme Colors ---
+const Color playversePink = Color(0xFFE91E63);
+const Color playversePurple = Color(0xFF8A2BE2);
+const Color playverseBgColor = Color(0xFFF9F9F9);
 const Color playverseCardColor = Colors.white;
 
-// --- Mock Game Data based on user's screenshots ---
+// --- Mock Game Data ---
 final List<Map<String, dynamic>> gameList = [
   {
     'title': 'Paint It: Hex Color Sort',
-    'description': 'Discover Paint It: Hex Color Sort! Mix colors in a world where every splash of water is a step into mystery. We are inviting you to sort, match, and puzzle your way through.',
-    // Placeholder image asset based on the cat wizard in the screenshot
-    'asset_left': 'assets/leftcat.png', 
+    'description':
+        'Discover Paint It: Hex Color Sort! Mix colors in a world where every splash of water is a step into mystery. '
+            'We are inviting you to sort, match, and puzzle your way through.',
+    'asset_left': 'assets/leftcat.png',
     'asset_right': 'assets/rightcat.png',
   },
 ];
@@ -23,82 +24,79 @@ class GamesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  SingleChildScrollView(
+    return SingleChildScrollView(
       child: Column(
-          children: [
-            // 1. Hero Banner Section
-            // const PlayverseAppBar(currentPage: "Games"),
-            _buildHeroBanner(context),
-            const SizedBox(height: 64),
-            // 2. Game Listing Section
-            _buildGameList(context),
-            const SizedBox(height: 80),
-            // 3. Footer
-            // const PlaverseFooter(isPrivacyPage: false, isTermsPage: false),
-          ],
-        
+        children: [
+          _buildHeroBanner(context),
+          const SizedBox(height: 64),
+          _buildGameList(context),
+          const SizedBox(height: 80),
+        ],
       ),
     );
   }
 
-  // --- Widget Builders ---
-
+  // --- Hero Banner ---
   Widget _buildHeroBanner(BuildContext context) {
-    // This mimics the wide header image with a title overlay from the screenshot
-    return Container(
-      height: 400, // Fixed height for a dramatic banner
-      width: double.infinity,
-      decoration: BoxDecoration(
-        // Using the uploaded image for the background
-        image: DecorationImage(
-          image: AssetImage(
-            'assets/ourgames.jpg',
-          ),
-          fit: BoxFit.cover,
-          // Apply a subtle dark overlay for text contrast
-          colorFilter: ColorFilter.mode(
-            Colors.black.withOpacity(0.4), 
-            BlendMode.darken
-          ),
-        ),
-      ),
-      child: Center(
-        child: Text(
-          'OUR GAMES',
-          style: GoogleFonts.poppins(
-            shadows: [
-              Shadow(
-                color: Colors.white.withOpacity(0.5), 
-                blurRadius: 10, 
-                offset: const Offset(2, 2)
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double width = constraints.maxWidth;
+
+        double fontSize = width > 1000
+            ? 60
+            : width > 700
+                ? 40
+                : 28;
+
+        return Container(
+          height: width > 700 ? 400 : 250,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: const AssetImage('assets/ourgames.jpg'),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.4),
+                BlendMode.darken,
               ),
-               Shadow(
-                color: Colors.white.withOpacity(0.8), // A bright white outline/glow effect
-                blurRadius: 1, 
-                offset: const Offset(0, 0)
-              ),
-            ],
-            fontSize: 60,
-            fontWeight: FontWeight.w800,
-            color: Colors.purple,
-            letterSpacing: 4,
+            ),
           ),
-        ),
-      ),
+          child: Center(
+            child: Text(
+              'OUR GAMES',
+              style: GoogleFonts.poppins(
+                shadows: [
+                  Shadow(
+                      color: Colors.white.withOpacity(0.5),
+                      blurRadius: 10,
+                      offset: const Offset(2, 2)),
+                  Shadow(
+                      color: Colors.white.withOpacity(0.8),
+                      blurRadius: 1,
+                      offset: const Offset(0, 0)),
+                ],
+                fontSize: fontSize,
+                fontWeight: FontWeight.w800,
+                color: Colors.purple,
+                letterSpacing: 3,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
+  // --- Game List ---
   Widget _buildGameList(BuildContext context) {
     return Container(
-      // constraints: const BoxConstraints(maxWidth: 1000), // Max width for content legibility
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          // Iterate through the game list, alternating the layout direction
           ...gameList.asMap().entries.map((entry) {
             final index = entry.key;
             final game = entry.value;
-            final isReversed = index % 2 != 0; // Alternate layout: left/right/left/right
+            final isReversed = index % 2 != 0;
 
             return _buildGameCard(
               game['title'] as String,
@@ -113,111 +111,128 @@ class GamesScreen extends StatelessWidget {
     );
   }
 
- Widget _buildGameCard(
-  String title,
-  String description,
-  String assetLeft,
-  String assetRight,
-  {required bool isReversed}) {
-  
-  // Left Image
-  Widget leftImage = Image.asset(
-    assetLeft,
-    height: 350,
-    width: 350,
-    fit: BoxFit.contain,
-    errorBuilder: (context, error, stackTrace) =>
-        Icon(Icons.gamepad, size: 80, color: Colors.grey),
-  );
+  // --- Responsive Game Card ---
+  Widget _buildGameCard(
+    String title,
+    String description,
+    String assetLeft,
+    String assetRight, {
+    required bool isReversed,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 64.0),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          double width = constraints.maxWidth;
 
-  // Right Image
-  Widget rightImage = Image.asset(
-    assetRight,
-    height: 350,
-    width: 350,
-    fit: BoxFit.contain,
-    errorBuilder: (context, error, stackTrace) =>
-        Icon(Icons.gamepad, size: 80, color: Colors.grey),
-  );
+          // 🔹 Adaptive sizes
+          double titleSize = width > 1000
+              ? 32
+              : width > 700
+                  ? 26
+                  : 20;
 
-  // Text content
-  Widget textColumn = Column(
-    mainAxisSize: MainAxisSize.min,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-      Text(
-        title,
-        textAlign: TextAlign.center,
-        style: GoogleFonts.poppins(
-          fontSize: 32,
-          fontWeight: FontWeight.w700,
-          color: Colors.purple, // match screenshot
-        ),
-      ),
-      const SizedBox(height: 16),
-      SizedBox(
-        width: 400, // keep description nicely wrapped
-        child: Text(
-          description,
-          textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
-            fontSize: 16,
-            color: Colors.black87,
-            height: 1.6,
-          ),
-        ),
-      ),
-      const SizedBox(height: 24),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/app_store.png',
-            height: 50,
-          ),
-          const SizedBox(width: 16),
-          Image.asset(
-            'assets/play_store.png',
-            height: 50,
-          ),
-        ],
-      ),
-    ],
-  );
+          double descSize = width > 1000
+              ? 16
+              : width > 700
+                  ? 14
+                  : 12;
 
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 64.0),
-    child: LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth > 800) {
-          // 💻 Desktop layout: Left image | Center text | Right image
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          double imageSize = width > 1000
+              ? 350
+              : width > 700
+                  ? 250
+                  : 180;
+
+          double storeIconSize = width > 1000
+              ? 50
+              : width > 700
+                  ? 40
+                  : 30;
+
+          // Images
+          Widget leftImage = Image.asset(
+            assetLeft,
+            height: imageSize,
+            width: imageSize,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) =>
+                Icon(Icons.gamepad, size: imageSize / 2, color: Colors.grey),
+          );
+
+          Widget rightImage = Image.asset(
+            assetRight,
+            height: imageSize,
+            width: imageSize,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) =>
+                Icon(Icons.gamepad, size: imageSize / 2, color: Colors.grey),
+          );
+
+          // Text content
+          Widget textColumn = Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              leftImage,
-              const SizedBox(width: 40),
-              Flexible(child: textColumn),
-              const SizedBox(width: 40),
-              rightImage,
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  fontSize: titleSize,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.purple,
+                ),
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: width > 1000 ? 400 : width * 0.8,
+                child: Text(
+                  description,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                    fontSize: descSize,
+                    color: Colors.black87,
+                    height: 1.6,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/app_store.png',
+                    height: storeIconSize,
+                  ),
+                  const SizedBox(width: 16),
+                  Image.asset(
+                    'assets/play_store.png',
+                    height: storeIconSize,
+                  ),
+                ],
+              ),
             ],
           );
-        } else {
-          // 📱 Mobile layout: stacked
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              leftImage,
-              const SizedBox(height: 26),
-              textColumn,
-              const SizedBox(height: 26),
-              rightImage,
-            ],
-          );
-        }
-      },
-    ),
-  );
-}
 
+          if (width > 800) {
+            // 💻 Desktop/tablet layout
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: isReversed
+                  ? [rightImage, const SizedBox(width: 40), Flexible(child: textColumn), const SizedBox(width: 40), leftImage]
+                  : [leftImage, const SizedBox(width: 40), Flexible(child: textColumn), const SizedBox(width: 40), rightImage],
+            );
+          } else {
+            // 📱 Mobile layout
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: isReversed
+                  ? [rightImage, const SizedBox(height: 26), textColumn, const SizedBox(height: 26), leftImage]
+                  : [leftImage, const SizedBox(height: 26), textColumn, const SizedBox(height: 26), rightImage],
+            );
+          }
+        },
+      ),
+    );
+  }
 }

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// Defining color constants locally for this file's self-contained styling.
-// These should match the theme used throughout your Playverse app.
-const Color playversePink = Colors.purple; 
-const Color playversePurple = Color(0xFF5E35B1); // A specific dark purple for accents
+// Colors
+const Color playversePurple = Color(0xFF5E35B1);
+const Color playverseBgColor = Color(0xFFF9F9F9);
 
-// --- MOCK DATA MODEL ---
-
-/// Represents a single blog post's data.
+// --- Model ---
 class BlogModel {
   final String title;
   final String summary;
@@ -23,243 +20,260 @@ class BlogModel {
   });
 }
 
-// Mock data list for displaying cards
+// Mock Data
 final List<BlogModel> mockBlogs = [
   BlogModel(
-  title: "The Future of Mobile Gaming",
-  summary: "Exploring how 5G, AR, and cloud gaming are reshaping the mobile gaming landscape and opening doors for immersive player experiences worldwide.",
-  date: "October 1, 2025",
-  color: Colors.blue.shade700,
-),
-
-BlogModel(
-  title: "Esports and Competitive Gaming Growth",
-  summary: "A deep dive into the rise of esports, from local tournaments to billion-dollar global championships, and what it means for players and developers.",
-  date: "September 15, 2025",
-  color: Colors.pink.shade700,
-),
-
-BlogModel(
-  title: "The Art of Game Design: Beyond Graphics",
-  summary: "Understanding the role of storytelling, character development, and gameplay mechanics in creating unforgettable gaming experiences.",
-  date: "August 28, 2025",
-  color: playversePurple, // Using the primary theme color
-),
-
- 
-  
+    title: "The Future of Mobile Gaming",
+    summary:
+        "Exploring how 5G, AR, and cloud gaming are reshaping the mobile gaming landscape and opening doors for immersive player experiences worldwide.",
+    date: "October 1, 2025",
+    color: Colors.blue,
+  ),
+  BlogModel(
+    title: "Esports and Competitive Gaming Growth",
+    summary:
+        "A deep dive into the rise of esports, from local tournaments to billion-dollar global championships, and what it means for players and developers.",
+    date: "September 15, 2025",
+    color: Colors.pink,
+  ),
+  BlogModel(
+    title: "The Art of Game Design: Beyond Graphics",
+    summary:
+        "Understanding the role of storytelling, character development, and gameplay mechanics in creating unforgettable gaming experiences.",
+    date: "August 28, 2025",
+    color: playversePurple,
+  ),
 ];
 
-// --- WIDGETS ---
-
-/// A reusable card for displaying a single blog post summary.
+// --- Blog Card ---
 class BlogCard extends StatelessWidget {
   final BlogModel blog;
+  final double titleSize;
+  final double bodySize;
+  final double dateSize;
+  final double imageHeight;
 
-  const BlogCard({super.key, required this.blog});
+  const BlogCard({
+    super.key,
+    required this.blog,
+    required this.titleSize,
+    required this.bodySize,
+    required this.dateSize,
+    required this.imageHeight,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 8,
+      elevation: 6,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: InkWell(
-        onTap: () {
-          // TODO: Implement navigation to the detailed article page using GoRouter
-          print("Reading blog: ${blog.title}");
-        },
-        borderRadius: BorderRadius.circular(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Image/Placeholder Area
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-              child: Container(
-                height: 200,
-                color: blog.color.withOpacity(0.8),
-                child: Center(
-                  // Placeholder icon for the blog image/thumbnail
-                  child: Icon(Icons.article, size: 80, color: Colors.white.withOpacity(0.9)),
-                ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Image Area
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+            child: Container(
+              height: imageHeight,
+              color: blog.color.withOpacity(0.85),
+              child: Center(
+                child: Icon(Icons.article,
+                    size: imageHeight / 2.5, color: Colors.white),
               ),
             ),
+          ),
 
-            // Content Area
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    blog.title,
-                    style: GoogleFonts.poppins(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey.shade900,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+          // Content
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  blog.title,
+                  style: GoogleFonts.poppins(
+                    fontSize: titleSize,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey.shade900,
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    blog.date,
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      color: Colors.grey.shade500,
-                      fontStyle: FontStyle.italic,
-                    ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  blog.date,
+                  style: GoogleFonts.poppins(
+                    fontSize: dateSize,
+                    color: Colors.grey.shade600,
+                    fontStyle: FontStyle.italic,
                   ),
-                  const SizedBox(height: 12),
-                  Text(
-                    blog.summary,
-                    style: GoogleFonts.inter(fontSize: 16, color: Colors.grey.shade700),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 16),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton.icon(
-                      onPressed: () {
-                        print("Navigating to full article...");
-                      },
-                      icon: const Icon(Icons.arrow_forward, size: 18),
-                      label: const Text("Read More"),
-                      style: TextButton.styleFrom(
-                        foregroundColor: blog.color,
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          side: BorderSide(color: blog.color.withOpacity(0.5)),
-                        ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  blog.summary,
+                  style: GoogleFonts.inter(
+                      fontSize: bodySize, color: Colors.grey.shade700),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 12),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton.icon(
+                    onPressed: () {
+                      debugPrint("Read more: ${blog.title}");
+                    },
+                    icon: const Icon(Icons.arrow_forward, size: 18),
+                    label: Text("Read More",
+                        style: GoogleFonts.inter(fontSize: bodySize)),
+                    style: TextButton.styleFrom(
+                      foregroundColor: blog.color,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        side: BorderSide(color: blog.color.withOpacity(0.4)),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
 
-
-/// The main screen that adapts its layout based on screen width.
-/// This widget provides the body content and assumes the PlayverseAppBar is handled elsewhere.
+// --- Blog Screen ---
 class BlogScreen extends StatelessWidget {
   const BlogScreen({super.key});
 
-  // Breakpoints for responsive design
-  static const double kDesktopBreakpoint = 1000.0;
-  static const double kTabletBreakpoint = 650.0;
+  static const double kDesktopBreakpoint = 1000;
+  static const double kTabletBreakpoint = 650;
 
-  @override
-  Widget build(BuildContext context) {
-    // Determine the width of the screen available for this content
-    return  SingleChildScrollView(
-      child: Column(
-          children: [
-            // PlayverseAppBar(),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                // Default values for mobile view (single column)
-                int crossAxisCount = 1;
-                double mainAxisSpacing = 30.0;
-                double crossAxisSpacing = 0.0;
-                EdgeInsets padding = const EdgeInsets.all(20.0);
-                double cardAspectRatio = 0.8; // Used to control height in grid
-            
-                if (constraints.maxWidth > kDesktopBreakpoint) {
-                  // Desktop View (3 columns)
-                  crossAxisCount = 3;
-                  mainAxisSpacing = 40.0;
-                  crossAxisSpacing = 40.0;
-                  padding = const EdgeInsets.all(50.0);
-                  cardAspectRatio = 0.8;
-                } else if (constraints.maxWidth > kTabletBreakpoint) {
-                  // Tablet View (2 columns)
-                  crossAxisCount = 2;
-                  mainAxisSpacing = 30.0;
-                  crossAxisSpacing = 30.0;
-                  padding = const EdgeInsets.all(30.0);
-                  cardAspectRatio = 0.9;
-                } 
-                
-                // This is a SingleChildScrollView that holds both the Header and the Grid/List
-                return SingleChildScrollView(
-                  padding: padding,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Header Section
-                      _buildHeader(context),
-                      const SizedBox(height: 50),
-                      
-                      // Blog Posts Content
-                      if (crossAxisCount == 1) 
-                        // Mobile View: Simple Column List
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: mockBlogs.map((blog) => Padding(
-                            padding: const EdgeInsets.only(bottom: 25.0),
-                            child: BlogCard(blog: blog),
-                          )).toList(),
-                        )
-                      else 
-                        // Tablet/Desktop View: Grid View
-                        GridView.builder(
-                          shrinkWrap: true, // Necessary inside SingleChildScrollView
-                          physics: const NeverScrollableScrollPhysics(), // Scroll managed by parent
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: crossAxisCount,
-                            crossAxisSpacing: crossAxisSpacing,
-                            mainAxisSpacing: mainAxisSpacing,
-                            // Calculated ratio to ensure the card looks well proportioned
-                            childAspectRatio: cardAspectRatio, 
-                          ),
-                          itemCount: mockBlogs.length,
-                          itemBuilder: (context, index) {
-                            return BlogCard(blog: mockBlogs[index]);
-                          },
-                        ),
-                    ],
-                  ),
-                );
-              },
-            ),
-            // PlaverseFooter(isPrivacyPage: false,isTermsPage: false,)
-          ],
-        
-      ),
-    );
-  }
-
-  // Common Header for the Blog Page
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader(BuildContext context, double headerSize, double subtitleSize) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           "Insights from Playverse.pk",
           style: GoogleFonts.poppins(
-            fontSize: 40,
+            fontSize: headerSize,
             fontWeight: FontWeight.w700,
             color: Colors.purple,
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Text(
-          "Our latest articles on  game design, and tech trends.",
+          "Our latest articles on game design and tech trends.",
           style: GoogleFonts.inter(
-            fontSize: 20,
+            fontSize: subtitleSize,
             color: Colors.grey.shade600,
           ),
         ),
-        Divider(color: Colors.grey.shade300, thickness: 2, height: 40),
+        Divider(color: Colors.grey.shade300, thickness: 1, height: 40),
       ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          double screenWidth = constraints.maxWidth;
+
+          // Default (Mobile)
+          int crossAxisCount = 1;
+          double headerSize = 26;
+          double subtitleSize = 14;
+          double cardTitleSize = 16;
+          double cardBodySize = 13;
+          double cardDateSize = 11;
+          double cardImageHeight = 140;
+          double aspectRatio = 0.75;
+          EdgeInsets padding = const EdgeInsets.all(16);
+
+          if (screenWidth >= kTabletBreakpoint && screenWidth < kDesktopBreakpoint) {
+            // Tablet
+            crossAxisCount = 2;
+            headerSize = 32;
+            subtitleSize = 16;
+            cardTitleSize = 18;
+            cardBodySize = 14;
+            cardDateSize = 12;
+            cardImageHeight = 160;
+            aspectRatio = 0.78; // Looser ratio so text doesn’t cut off
+            padding = const EdgeInsets.all(24);
+          } else if (screenWidth >= kDesktopBreakpoint) {
+            // Desktop
+            crossAxisCount = 3;
+            headerSize = 38;
+            subtitleSize = 18;
+            cardTitleSize = 20;
+            cardBodySize = 15;
+            cardDateSize = 13;
+            cardImageHeight = 180;
+            aspectRatio = 0.85;
+            padding = const EdgeInsets.all(40);
+          }
+
+          return Container(
+            color: playverseBgColor,
+            child: Padding(
+              padding: padding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildHeader(context, headerSize, subtitleSize),
+                  const SizedBox(height: 30),
+
+                  // Switch between List & Grid
+                  crossAxisCount == 1
+                      ? Column(
+                          children: mockBlogs
+                              .map((blog) => Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 20.0),
+                                    child: BlogCard(
+                                      blog: blog,
+                                      titleSize: cardTitleSize,
+                                      bodySize: cardBodySize,
+                                      dateSize: cardDateSize,
+                                      imageHeight: cardImageHeight,
+                                    ),
+                                  ))
+                              .toList(),
+                        )
+                      : GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: mockBlogs.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: crossAxisCount,
+                            crossAxisSpacing: 20,
+                            mainAxisSpacing: 20,
+                            childAspectRatio: aspectRatio,
+                          ),
+                          itemBuilder: (context, index) {
+                            return BlogCard(
+                              blog: mockBlogs[index],
+                              titleSize: cardTitleSize,
+                              bodySize: cardBodySize,
+                              dateSize: cardDateSize,
+                              imageHeight: cardImageHeight,
+                            );
+                          },
+                        ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

@@ -95,11 +95,13 @@ class PlaverseFooter extends StatelessWidget {
           const SizedBox(height: 30),
 
           // 4. Copyright Information
-          Text(
-            'All rights reserved. © 2025 - Playverse.pk',
-            style: GoogleFonts.poppins(
-              fontSize: 14,
-              color: Colors.white,
+          Center(
+            child: Text(
+              'All rights reserved. © 2025 - Playverse.pk',
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                color: Colors.white,
+              ),
             ),
           ),
         ],
